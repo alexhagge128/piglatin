@@ -1,30 +1,28 @@
-var leapYear = function(year) {
-  if ((year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0)) {
-    return true;
-  }
-  else {
-    return false;
+var pigLatin = function(englishWord) {
+  var splitAt = indexOfFirstVowel(englishWord);
+  return englishWord.slice(splitAt) + englishWord.slice(0, splitAt) + 'ay';
+};
+
+var indexOfFirstVowel = function(word) {
+  var vowels = ['a', 'e', 'i', 'o', 'u'];
+  var letters = word.split("");
+
+  for (var i = 0; i < letters.length; i++) {
+    for (var j = 0; j < vowels.length; j++) {
+      if (letters[i] === vowels[j]) {
+        return i;
+      }
+    }
   }
 };
 
 $(document).ready(function() {
-  $("form#leap-year").submit(function(event) {
-    var year = parseInt($("input#year").val());
-    var result = leapYear(year);
+  $("form#pigForm").submit(function(event) {
+    var englishWord = $("input#english").val();
 
-    $(".year").text(year);
+    var translation = pigLatin(englishWord);
 
-    if (year < 0) {
-      alert("No negative numbers please");
-    }
-    else if (!result) {                 // same as writing if (result === false)
-      $(".not").text("not");
-      $("#result").show();
-    }
-    else {
-      $(".not").text("");
-      $("#result").show();
-    }
+    alert(translation);
 
     event.preventDefault();
   });
